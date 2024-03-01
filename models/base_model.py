@@ -3,6 +3,7 @@
 
 import uuid
 from datetime import datetime
+import models
 
 
 class BaseModel:
@@ -12,7 +13,7 @@ class BaseModel:
         """Define consctructor"""
         if kwargs:
             for key, value in kwargs.items():
-                if key is not '__class__':
+                if key != '__class__':
                     if key in ['created_at', 'updated_at']:
                         value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                     setattr(self, key, value)
@@ -27,8 +28,9 @@ class BaseModel:
             self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
-        """update the instanse update"""
+        """update the instanse update attribute and call save on storage"""
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """Create a dictionary that content the values of the instance"""
