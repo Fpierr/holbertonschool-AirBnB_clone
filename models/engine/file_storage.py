@@ -10,17 +10,25 @@ class FileStorage:
     """Manage serialization/deserialization of objects to/from json"""
 
     # path to the JSON file and dictionary to store object
-    __file_path = "file.json"
-    __objects = {}
+    def __init__(self):
+        """Initialize FileStorage instance"""
+        self.__file_path = "file.json"
+        self.__objects = {}
 
-    def all(self):
-        """return the dictionary object"""
+    def all(self, cls=None):
+        """return the dictionary object or filtered by cls"""
+        if cls is not None:
+            return {
+                    key: obj
+                    for key, obj in self.__objects.items() if isinstance(obj, cls)
+                    }
         return self.__objects
 
     def new(self, obj):
         """Add to the dictionary __objects the obj in format class name.id"""
         key = "{}.{}".format(type(obj).__name__, obj.id)
         self.__objects[key] = obj
+        self.save()
 
     def save(self):
         """serialize __objects to the JSON file"""
