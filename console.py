@@ -4,7 +4,6 @@
 import cmd
 import models
 from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
 import shlex
 
 
@@ -26,7 +25,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_EOF(self, arg):
-        """EOF command to exit the programm"""
+        """EOF command to exit the program"""
         print()
         return True
 
