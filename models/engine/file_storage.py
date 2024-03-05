@@ -19,7 +19,7 @@ class FileStorage:
 
     def new(self, obj):
         """Add to the dictionary __objects the obj in format class name.id"""
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        key = "{}.{}".format(type(obj).__name__, obj.id)
         self.__objects[key] = obj
 
     def save(self):
@@ -36,12 +36,13 @@ class FileStorage:
             with open(self.__file_path, 'r', encoding='utf-8') as file:
                 obj_dict = json.load(file)
                 for key, value in obj_dict.items():
-                    class_name, obj_dict = key.split('.')
-                    obj_dict[key]['created_at'] = datetime.strptime(
-                        obj_dict[key]['created_at'], "%Y-%m-%dT%H:%M:%S.%f")
-                    obj_dict[key]['updated_at'] = datetime.strptime(
-                        obj_dict[key]['updated_at'], "%Y-%m-%dT%H:%M:%S.%f")
-                    obj_instance = eval(class_name)(**value)
+                    class_name, obj_id = key.split('.')
+                    value['created_at'] = datetime.strptime(
+                        value['created_at'], "%Y-%m-%dT%H:%M:%S.%f")
+                    value['updated_at'] = datetime.strptime(
+                        value['updated_at'], "%Y-%m-%dT%H:%M:%S.%f")
+                    obj_class = globals()[class_name]
+                    obj_instance = obj_class(**value)
                     self.__objects[key] = obj_instance
         except FileNotFoundError:
             pass
