@@ -25,7 +25,7 @@ class BaseModel:
     def __str__(self):
         """Return the string representation of BaseModel."""
         return "[{}] ({}) {}".format(
-            type(self).__name__, self.id, self.__dict__)
+            type(self).__name__, self.id, str(self.__dict__))
 
     def save(self):
         """update the instanse update attribute and call save on storage"""
