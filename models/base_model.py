@@ -38,12 +38,11 @@ class BaseModel:
         """Create a dictionary that contains the values of the instance"""
         model_dict = self.__dict__.copy()
 
-        for key, value in self.__dict__.items():
+        for key in ['created_at', 'updated_at']:
+
             if key in ['created_at', 'updated_at']:
-                if hasattr(value, 'isoformat'):
-                    model_dict[key] = value.isoformat()
-                else:
-                    model_dict[key] = value
+                if key in model_dict and hasattr(model_dict[key], 'isoformat'):
+                    model_dict[key] = model_dict[key].isoformat()
             else:
                 model_dict[key] = value
 
