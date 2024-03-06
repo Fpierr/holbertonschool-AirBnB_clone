@@ -13,9 +13,11 @@ class BaseModel:
         """Define consctructor"""
         if kwargs:
             for key, value in kwargs.items():
-                if key == 'created_at' or key == 'updated_at':
-                    value = datetime.fromisoformat(value)
-                if key != '__class__':
+                if key in ['created_at', 'updated_at']:
+                    if isinstance(value, str):
+                        value = datetime.fromisoformat(value)
+                    setattr(self, key, value)
+                else:
                     setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
