@@ -39,12 +39,8 @@ class BaseModel:
         model_dict = self.__dict__.copy()
 
         for key in ['created_at', 'updated_at']:
-
-            if key in ['created_at', 'updated_at']:
-                if key in model_dict and hasattr(model_dict[key], 'isoformat'):
-                    model_dict[key] = model_dict[key].isoformat()
-            else:
-                model_dict[key] = value
+            if key in model_dict and hasattr(model_dict[key], 'isoformat'):
+                model_dict[key] = model_dict[key].isoformat()
 
         model_dict['__class__'] = type(self).__name__
         return model_dict
