@@ -36,7 +36,8 @@ class BaseModel:
 
     def to_dict(self):
         """Create a dictionary that contains the values of the instance"""
-        model_dict = {}
+        model_dict = self.__dict__.copy()
+
         for key, value in self.__dict__.items():
             if key in ['created_at', 'updated_at']:
                 if hasattr(value, 'isoformat'):
