@@ -35,9 +35,16 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """Create a dictionary that content the values of the instance"""
-        model_dict = self.__dict__.copy()
+        """Create a dictionary that contains the values of the instance"""
+        model_dict = {}
+        for key, value in self.__dict__.items():
+            if key in ['created_at', 'updated_at']:
+                if hasattr(value, 'isoformat'):
+                    model_dict[key] = value.isoformat()
+                else:
+                    model_dict[key] = value
+            else:
+                model_dict[key] = value
+
         model_dict['__class__'] = type(self).__name__
-        model_dict['created_at'] = self.created_at.isoformat()
-        model_dict['updated_at'] = self.updated_at.isoformat()
         return model_dict
