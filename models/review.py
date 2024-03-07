@@ -1,17 +1,11 @@
 #!/usr/bin/python3
-"""Module Review class"""
+"""Module Review"""
 
 from models.base_model import BaseModel
 
 
 class Review(BaseModel):
-    """
-    Inherits from BaseModel
-    Public class attributes:
-        place_id:   (str) will be Place.id
-        user_id:    (str) will be User.id
-        text:       (str)
-    """
+    """Review class"""
     place_id = ""
     user_id = ""
     text = ""

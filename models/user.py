@@ -2,7 +2,7 @@
 """user class"""
 
 from models.base_model import BaseModel
-import json
+import email
 
 
 class User(BaseModel):
