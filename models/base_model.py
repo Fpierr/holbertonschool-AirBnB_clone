@@ -43,6 +43,7 @@ class BaseModel:
             models.storage.save()
         except Exception as e:
             print("Error saving instance: {}".format(e))
+            raise
 
     def to_dict(self):
         """Create a dictionary that contains the values of the instance"""
