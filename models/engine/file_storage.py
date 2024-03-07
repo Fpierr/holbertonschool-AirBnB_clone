@@ -24,12 +24,6 @@ class FileStorage:
 
     def all(self, cls=None):
         """return the dictionary object or filtered by cls"""
-        if cls is not None:
-            return {
-                key: obj
-                for key, obj in self.__objects.items() if isinstance(
-                    obj, cls)
-            }
         return self.__objects
 
     def new(self, obj):
