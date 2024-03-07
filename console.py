@@ -4,26 +4,21 @@ Entry to command interpreter
 """
 import cmd
 from models import storage
-import models
 from models.base_model import BaseModel
-from models.place import Place
+from models.user import User
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
+from models.place import Place
 from models.review import Review
 
 
-def parse(arg):
-    """Helper method to parse user-typed input"""
-    return tuple(arg.split())
-
-
 class HBNBCommand(cmd.Cmd):
-    """
-    Entry to command interpreter
-    """
+    """Command interpreter"""
+
     prompt = "(hbnb) "
-    classes = {"BaseModel", "State", "City", "Amenity", "Place", "Review"}
+    classes = {"BaseModel", "State", "City",
+               "Amenity", "Place", "Review", "User"}
 
     def do_EOF(self, arg):
         """Exit on Ctrl-D"""
@@ -45,8 +40,7 @@ class HBNBCommand(cmd.Cmd):
         elif arg not in HBNBCommand.classes:
             print("** class doesn't exist **")
         else:
-            args = parse(arg)
-            instance = getattr(models, args[0])()
+            instance = eval(arg)()
             instance.save()
             print(instance.id)
 
@@ -108,15 +102,31 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         """Update if given exact object, exact attribute"""
         args = parse(arg)
-        if len(args) >= 4:
-            key = "{}.{}".format(args[0], args[1])
+
+        if len(args) < 4:
+            print("** not enough arguments **")
+            return
+
+        key = "{}.{}".format(args[0], args[1])
+        if args[0] not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        try:
             cast = type(eval(args[3]))
-            arg3 = args[3]
-            arg3 = arg3.strip('"')
-            arg3 = arg3.strip("'")
+            arg3 = args[3].strip('"\'')
             setattr(storage.all()[key], args[2], cast(arg3))
             storage.all()[key].save()
-        elif len(args) == 0:
+        except AttributeError:
+            print("** no instance found **")
+        except ValueError:
+            print("** Invalid value for attribute **")
+        except Exception as e:
+            print("Error updating: {}".format(e))
+        else:
+            print("Update successful")
+
+        if len(args) == 0:
             print("** class name missing **")
         elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
@@ -135,15 +145,63 @@ class HBNBCommand(cmd.Cmd):
         count = 0
         if len(args) == 0:
             print("** class name missing **")
-            return
         elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
-            return
         else:
-            for key in storage.all().keys():
-                if args[0] in key:
-                    count += 1
+            count = sum(1 for key in storage.all().keys() if args[0] in key)
             print(count)
+
+    def default(self, arg):
+        """Accepts class name followed by arguement"""
+        args = arg.split('.')
+        class_arg = args[0]
+        if len(args) == 1:
+            print("*** Unknown syntax: {}".format(arg))
+            return
+        try:
+            args = args[1].split('(')
+            command = args[0]
+            if command == 'all':
+                HBNBCommand.do_all(self, class_arg)
+            elif command == 'count':
+                HBNBCommand.do_count(self, class_arg)
+            elif command == 'show':
+                args = args[1].split(')')
+                id_arg = args[0]
+                id_arg = id_arg.strip("'")
+                id_arg = id_arg.strip('"')
+                arg = class_arg + ' ' + id_arg
+                HBNBCommand.do_show(self, arg)
+            elif command == 'destroy':
+                args = args[1].split(')')
+                id_arg = args[0]
+                id_arg = id_arg.strip('"')
+                id_arg = id_arg.strip("'")
+                arg = class_arg + ' ' + id_arg
+                HBNBCommand.do_destroy(self, arg)
+            elif command == 'update':
+                args = args[1].split(',')
+                id_arg = args[0].strip("'")
+                id_arg = id_arg.strip('"')
+                name_arg = args[1].strip(',')
+                val_arg = args[2]
+                name_arg = name_arg.strip(' ')
+                name_arg = name_arg.strip("'")
+                name_arg = name_arg.strip('"')
+                val_arg = val_arg.strip(' ')
+                val_arg = val_arg.strip(')')
+                arg = class_arg + ' ' + id_arg + ' ' + name_arg + ' ' + val_arg
+                HBNBCommand.do_update(self, arg)
+            else:
+                print("*** Unknown syntax: {}".format(arg))
+        except IndexError:
+            print("*** Unknown syntax: {}".format(arg))
+
+
+def parse(arg):
+    """Helper method to parse user typed input"""
+    return tuple(arg.split())
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
