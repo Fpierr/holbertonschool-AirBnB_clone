@@ -6,6 +6,11 @@ import cmd
 from models import storage
 import models
 from models.base_model import BaseModel
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 def parse(arg):
@@ -18,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
     Entry to command interpreter
     """
     prompt = "(hbnb) "
-    classes = {"BaseModel"}
+    classes = {"BaseModel", "State", "City", "Amenity", "Place", "Review"}
 
     def do_EOF(self, arg):
         """Exit on Ctrl-D"""
@@ -126,15 +131,19 @@ class HBNBCommand(cmd.Cmd):
 
     def do_count(self, arg):
         """Display count of instances specified"""
-        if arg in HBNBCommand.classes:
-            count = 0
-            for key, objs in storage.all().items():
-                if arg in key:
+        args = parse(arg)
+        count = 0
+        if len(args) == 0:
+            print("** class name missing **")
+            return
+        elif args[0] not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        else:
+            for key in storage.all().keys():
+                if args[0] in key:
                     count += 1
             print(count)
-        else:
-            print("** class doesn't exist **")
-
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
