@@ -38,8 +38,11 @@ class BaseModel:
     def save(self):
         """update the instanse update attribute and call save on storage"""
         self.updated_at = datetime.now()
-        models.storage.new(self)
-        models.storage.save()
+        try:
+            models.storage.new(self)
+            models.storage.save()
+        except Exception as e:
+            print("Error saving instance: {}".format(e))
 
     def to_dict(self):
         """Create a dictionary that contains the values of the instance"""
