@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-"""
-Entry to command interpreter
-"""
+"""Command interpreter"""
+
 import cmd
 from models import storage
 from models.base_model import BaseModel
