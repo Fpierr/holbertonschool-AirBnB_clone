@@ -18,6 +18,9 @@ class FileStorage:
     # path to the JSON file and dictionary to store object
     __file_path = "file.json"
     __objects = {}
+    class_dict = {"BaseModel": BaseModel, "User": User, "Place": Place,
+                  "Amenity": Amenity, "City": City, "Review": Review,
+                  "State": State}
 
     def all(self, cls=None):
         """return the dictionary object or filtered by cls"""
