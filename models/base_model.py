@@ -16,7 +16,11 @@ class BaseModel:
                 if key == '__class__':
                     continue
                 elif key in ['created_at', 'updated_at']:
-                    setattr(self, key, datetime.fromisoformat(value))
+                    try:
+                        date_value = datetime.fromisoformat(value)
+                    except ValueError:
+                        raise ValueError("Invalid date format for {}: {}".format(key, value))
+                    setattr(self, key, date_value)
                 else:
                     setattr(self, key, value)
         else:
@@ -27,16 +31,18 @@ class BaseModel:
     def __str__(self):
         """Return the string representation of BaseModel."""
         return "[{}] ({}) {}".format(
-            type(self).__name__, self.id, str(self.__dict__))
+            type(self).__name__, self.id, self.__dict__)
 
     def save(self):
         """update the instanse update attribute and call save on storage"""
         self.updated_at = datetime.now()
+        models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
         """Create a dictionary that contains the values of the instance"""
-        model_dict = {}
+        model_dict = {'__class__': type(self).__name__}
+
         for key, value in self.__dict__.items():
             if key in ['created_at', 'updated_at']:
                 if hasattr(value, 'isoformat'):
@@ -45,5 +51,4 @@ class BaseModel:
                     model_dict[key] = value
             else:
                 model_dict[key] = value
-        model_dict['__class__'] = type(self).__name__
         return model_dict
