@@ -19,7 +19,9 @@ class BaseModel:
                     try:
                         date_value = datetime.fromisoformat(value)
                     except ValueError:
-                        raise ValueError("Invalid date format for {}: {}".format(key, value))
+                        raise ValueError(
+                            "Invalid date format for {}: {}".format(
+                                key, value))
                     setattr(self, key, date_value)
                 else:
                     setattr(self, key, value)
