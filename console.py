@@ -17,7 +17,7 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
     classes = {"BaseModel", "State", "City", "Amenity", "Place",
-            "Review", "User"}
+               "Review", "User"}
 
     def do_EOF(self, arg):
         """Exit console on Ctrl-D"""
@@ -149,7 +149,8 @@ class HBNBCommand(cmd.Cmd):
         else:
             count = sum(1 for key in storage.all().keys() if args[0] in key)
             print(count)
-    
+
+
 def parse(arg):
     """Parse the user-typed input and return a tuple of arguments"""
     return tuple(arg.split())
