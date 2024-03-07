@@ -63,8 +63,13 @@ class FileStorage:
                         if isinstance(v, datetime):
                             value[k] = v.isoformat()
 
-                    obj_class = globals()[class_name]
-                    obj_instance = obj_class(**value)
-                    self.__objects[key] = obj_instance
+                    obj_class = self.class_dict.get(class_name)
+                    if obj_class:
+                        obj_instance = obj_class(**value)
+                        self.__objects[key] = obj_instance
+                    else:
+                        print("Warning: Class {} not found.".format(
+                            class_name))
+
         except FileNotFoundError:
             pass
