@@ -7,6 +7,7 @@ from models import storage
 import models
 from models.base_model import BaseModel
 
+
 def parse(arg):
     """Helper method to parse user-typed input"""
     return tuple(arg.split())
@@ -133,6 +134,7 @@ class HBNBCommand(cmd.Cmd):
             print(count)
         else:
             print("** class doesn't exist **")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
