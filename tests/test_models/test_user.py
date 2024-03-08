@@ -58,7 +58,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(type(self.my_user.email), str)
         self.assertEqual(type(self.my_user.password), str)
         self.assertEqual(type(self.my_user.first_name), str)
-        self.assertEqual(type(self.my_user.first_name), str)
+        self.assertEqual(type(self.my_user.last_name), str)
 
     def test_save(self):
         """Test the save method."""
