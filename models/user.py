@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """user class"""
 
+from datetime import datetime
 from models.base_model import BaseModel
 import email
 
