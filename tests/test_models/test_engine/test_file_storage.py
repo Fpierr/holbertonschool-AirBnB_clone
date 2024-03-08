@@ -23,9 +23,9 @@ class TestFileStorage(unittest.TestCase):
     def setUpClass(cls):
         """Set up an instance of Review for testing"""
         cls.rev1 = Review()
-        cls.rev1.place_id = "Raleigh"
-        cls.rev1.user_id = "Greg"
-        cls.rev1.text = "Grade A"
+        cls.rev1.place_id = "Pierre"
+        cls.rev1.user_id = "Fanuel"
+        cls.rev1.text = "Fanuel P"
 
     @classmethod
     def tearDownClass(cls):
@@ -65,9 +65,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertIs(instances_dic, storage._FileStorage__objects)
 
     def test_new(self):
-        """
-        Tests method: new (saves a new object into dictionary)
-        """
+        """Test to saves a new object into dictionary"""
 
         # Create an instance of FileStorage
         m_storage = FileStorage()
@@ -76,23 +74,23 @@ class TestFileStorage(unittest.TestCase):
         instances_dic = m_storage.all()
 
         # Create a new User object
-        melissa = User()
-        melissa.id = 999999
-        melissa.name = "Melissa"
+        fanuel = User()
+        fanuel.first_name = "Fanuel"
+        fanuel.last_name = "Pierre"
+        fanuel.email = "fanuel@example.com"
+        fanuel.password = "secure_password"
 
         # Save the new object into the dictionary
-        m_storage.new(melissa)
+        m_storage.new(fanuel)
 
         # Create the key for the dictionary
-        key = melissa.__class__.__name__ + "." + str(melissa.id)
+        key = fanuel.__class__.__name__ + "." + str(fanuel.id)
 
         # Ensure the key exists in the dictionary
         self.assertIsNotNone(instances_dic[key])
 
     def test_reload(self):
-        """
-        Tests method: reload (reloads objects from string file)
-        """
+        """Tests method: reload (reloads objects from string file)"""
 
         # Create an instance of FileStorage
         a_storage = FileStorage()
