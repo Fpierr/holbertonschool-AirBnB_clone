@@ -2,7 +2,7 @@
 """Command interpreter"""
 
 import cmd
-from models import storage
+import models
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -10,7 +10,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-
+from models import storage
 
 class HBNBCommand(cmd.Cmd):
     """Command interpreter"""
@@ -101,31 +101,15 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         """Update object, attribute"""
         args = parse(arg)
-
-        if len(args) < 4:
-            print("** not enough arguments **")
-            return
-
-        key = "{}.{}".format(args[0], args[1])
-        if args[0] not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-
-        try:
+        if len(args) >= 4:
+            key = "{}.{}".format(args[0], args[1])
             cast = type(eval(args[3]))
-            arg3 = args[3].strip('"\'')
+            arg3 = args[3]
+            arg3 = arg3.strip('"')
+            arg3 = arg3.strip("'")
             setattr(storage.all()[key], args[2], cast(arg3))
             storage.all()[key].save()
-        except AttributeError:
-            print("** no instance found **")
-        except ValueError:
-            print("** Invalid value for attribute **")
-        except Exception as e:
-            print("Error updating: {}".format(e))
-        else:
-            print("Update successful")
-
-        if len(args) == 0:
+        elif len(args) == 0:
             print("** class name missing **")
         elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
