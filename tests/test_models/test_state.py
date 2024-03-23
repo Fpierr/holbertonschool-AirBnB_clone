@@ -13,7 +13,7 @@ class TestState(unittest.TestCase):
     def setUpClass(cls):
         """Set up a State instance for testing."""
         cls.state1 = State()
-        cls.state1.name = "North_Carolina_AKA_THE_BEST_STATE"
+        cls.state1.name = "Holberton_name"
 
     @classmethod
     def tearDownClass(cls):

@@ -6,15 +6,16 @@ import pep8
 from models.review import Review
 from models.base_model import BaseModel
 
+
 class TestReview(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         """Set up an instance of Review for testing"""
         cls.rev1 = Review()
-        cls.rev1.place_id = "Raleigh"
-        cls.rev1.user_id = "Greg"
-        cls.rev1.text = "Grade A"
+        cls.rev1.place_id = "Holberton-Poteaux_id"
+        cls.rev1.user_id = "Holberton_user_id"
+        cls.rev1.text = "HB_text"
 
     @classmethod
     def tearDownClass(cls):
@@ -65,6 +66,7 @@ class TestReview(unittest.TestCase):
     def test_to_dict(self):
         """Check if to_dict method is present in the instance"""
         self.assertEqual('to_dict' in dir(self.rev1), True)
+
 
 if __name__ == "__main__":
     unittest.main()

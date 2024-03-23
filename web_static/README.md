@@ -21,4 +21,3 @@ You must use the header and footer tags
 You are not allowed to import any files
 You are not allowed to use the style tag in the head tag
 Use inline styling for all your tags
-

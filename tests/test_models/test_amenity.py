@@ -14,7 +14,7 @@ class TestAmenity(unittest.TestCase):
     def setUpClass(cls):
         """Set up"""
         cls.amenity1 = Amenity()
-        cls.amenity1.name = "Hot Tub"
+        cls.amenity1.name = "Holberton-School"
 
     @classmethod
     def tearDownClass(cls):

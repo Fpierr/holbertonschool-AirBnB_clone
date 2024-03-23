@@ -13,10 +13,10 @@ class TestPlace(unittest.TestCase):
     def setUpClass(cls):
         """Set up a Place instance for testing"""
         cls.place1 = Place()
-        cls.place1.city_id = "Somewhere in India"
-        cls.place1.user_id = "Aladdin"
-        cls.place1.name = "Taj Mahal"
-        cls.place1.description = "Fit for a king"
+        cls.place1.city_id = "Paris La Défense"
+        cls.place1.user_id = "Fanuel"
+        cls.place1.name = "Poteaux"
+        cls.place1.description = "Holberton"
         cls.place1.number_rooms = 0
         cls.place1.number_bathrooms = 0
         cls.place1.max_guest = 0

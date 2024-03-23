@@ -13,8 +13,8 @@ class TestCity(unittest.TestCase):
     def setUpClass(cls):
         """Set up a City instance for testing"""
         cls.city1 = City()
-        cls.city1.name = "Raleigh"
-        cls.city1.state_id = "NC"
+        cls.city1.name = "Poteaux"
+        cls.city1.state_id = "Paris"
 
     @classmethod
     def tearDownClass(cls):
